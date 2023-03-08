@@ -1,1 +1,0 @@
-Jion chupa tupinga
