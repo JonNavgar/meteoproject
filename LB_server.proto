@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+message RawMeteoData {
+  float temperature = 1;
+  float humidity = 2;
+  google.protobuf.Timestamp datetime = 3;
+}
+message RawPollutionData{
+  float co2 = 1;
+  google.protobuf.Timestamp datetime = 2;
+}
+service LB_service {
+  rpc send_meteo_data(RawMeteoData) returns (RawMeteoData) {}
+  rpc send_pollution_data(RawPollutionData) returns (RawPollutionData) {}
+}
