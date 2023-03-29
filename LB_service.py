@@ -15,7 +15,8 @@ class LB_service:
         ]
         self.server_index = 0
     def send_meteo_data(self, meteo):
-	# Round Robin
+	# Round Robin 
+	# Tenemos que tener en cuenta que pueden estar todos ocupados
         selected_server = self.servers[self.server_index % len(self.servers)]
         self.server_index = self.server_index + 1
 	# Crear cliente
