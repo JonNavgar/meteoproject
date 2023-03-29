@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import Data_server_pb2 as Data__server__pb2
+import LB_server_pb2 as LB__server__pb2
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
@@ -17,12 +17,12 @@ class Data_serviceStub(object):
         """
         self.process_meteo_data = channel.unary_unary(
                 '/Data_service/process_meteo_data',
-                request_serializer=Data__server__pb2.RawMeteoData.SerializeToString,
+                request_serializer=LB__server__pb2.RawMeteoData.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
         self.process_pollution_data = channel.unary_unary(
                 '/Data_service/process_pollution_data',
-                request_serializer=Data__server__pb2.RawPollutionData.SerializeToString,
+                request_serializer=LB__server__pb2.RawPollutionData.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
 
@@ -47,12 +47,12 @@ def add_Data_serviceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'process_meteo_data': grpc.unary_unary_rpc_method_handler(
                     servicer.process_meteo_data,
-                    request_deserializer=Data__server__pb2.RawMeteoData.FromString,
+                    request_deserializer=LB__server__pb2.RawMeteoData.FromString,
                     response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             ),
             'process_pollution_data': grpc.unary_unary_rpc_method_handler(
                     servicer.process_pollution_data,
-                    request_deserializer=Data__server__pb2.RawPollutionData.FromString,
+                    request_deserializer=LB__server__pb2.RawPollutionData.FromString,
                     response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             ),
     }
@@ -77,7 +77,7 @@ class Data_service(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Data_service/process_meteo_data',
-            Data__server__pb2.RawMeteoData.SerializeToString,
+            LB__server__pb2.RawMeteoData.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -94,7 +94,7 @@ class Data_service(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Data_service/process_pollution_data',
-            Data__server__pb2.RawPollutionData.SerializeToString,
+            LB__server__pb2.RawPollutionData.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -5,6 +5,7 @@ import meteo_utils
 from google.protobuf import timestamp_pb2
 import LB_server_pb2
 import LB_server_pb2_grpc
+
 # open a gRPC channel
 channel = grpc.insecure_channel('localhost:50051')
 # create a couple of stubs (client)
