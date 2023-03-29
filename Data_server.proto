@@ -10,7 +10,8 @@ message RawPollutionData{
   float co2 = 1;
   google.protobuf.Timestamp datetime = 2;
 }
-service LB_service {
-  rpc send_meteo_data(RawMeteoData) returns (google.protobuf.Empty) {}
-  rpc send_pollution_data(RawPollutionData) returns (google.protobuf.Empty) {}
+service Data_service {
+  rpc process_meteo_data(RawMeteoData) returns (google.protobuf.Empty) {}
+  rpc process_pollution_data(RawPollutionData) returns (google.protobuf.Empty) {}
 }
+
