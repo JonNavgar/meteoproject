@@ -9,9 +9,9 @@ import Data_server_pb2_grpc
 class LB_service:
     def __init__(self):
         self.servers = [
-            ('0.0.0.0', '50051'),
-            ('0.0.0.0', '50052'),
-            ('0.0.0.0', '50053')
+            ('0.0.0.0', '50054'),
+            ('0.0.0.0', '50055'),
+            ('0.0.0.0', '50056')
         ]
         self.server_index = 0
     def send_meteo_data(self, meteo):
@@ -19,6 +19,7 @@ class LB_service:
         print("HE LLEGAO LB") 
 	# Tenemos que tener en cuenta que pueden estar todos ocupados
         selected_server = self.servers[self.server_index % len(self.servers)]
+        print(selected_server[1])
         self.server_index = self.server_index + 1
 	# Crear cliente
         channel = grpc.insecure_channel(f"{selected_server[0]}:{selected_server[1]}")

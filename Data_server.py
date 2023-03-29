@@ -24,9 +24,9 @@ class Data_serviceServicer(Data_server_pb2_grpc.Data_serviceServicer):
 server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
 Data_server_pb2_grpc.add_Data_serviceServicer_to_server(Data_serviceServicer(), server)
 print('Listening')
-server.add_insecure_port('0.0.0.0:50051')
-server.add_insecure_port('0.0.0.0:50052')
-server.add_insecure_port('0.0.0.0:50053')
+server.add_insecure_port('0.0.0.0:50054')
+server.add_insecure_port('0.0.0.0:50055')
+server.add_insecure_port('0.0.0.0:50056')
 server.start()
 try:
         while True:
