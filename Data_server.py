@@ -17,7 +17,7 @@ class Data_serviceServicer(Data_server_pb2_grpc.Data_serviceServicer):
         return response
 
     def process_pollution_data(self, data, context):
-        Data_service.process_pollution_data(self, data)
+        Data_service.process_pollution_data(data)
         response = Data_server_pb2.google_dot_protobuf_dot_empty__pb2.Empty()
         return response
 

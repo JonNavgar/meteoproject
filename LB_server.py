@@ -18,7 +18,7 @@ class LB_serviceServicer(LB_server_pb2_grpc.LB_serviceServicer):
         return response
 
     def send_pollution_data(self, data, context):
-        LB_service.send_pollution_data(self, data)
+        LB_service.send_pollution_data(data)
         response = LB_server_pb2.google_dot_protobuf_dot_empty__pb2.Empty()
         return response
 
