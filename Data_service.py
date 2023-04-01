@@ -21,8 +21,10 @@ class Data_service:
         wellness = air_wellness.process_meteo_data(meteo)
         
         key = dt.strftime("%Y-%m-%d %H:%M:%S")
-        r_client.set(key, wellness)
-        #redis-cli en terminal y keys * 
+        
+        r_client.rpush('wellness', f'({dt.strftime("%Y-%m-%d %H:%M:%S")} : {wellness})')
+        #r_client.zadd('wellness',{key : wellness}) Lista ordenada no necesaria
+        #redis-cli en terminal y keys *, hgetall 
         
 
         
@@ -34,7 +36,8 @@ class Data_service:
         pollution = air_pollution.process_pollution_data(pollut)
         
         key = dt.strftime("%Y-%m-%d %H:%M:%S")
-        r_client.set(key,pollution)
+        r_client.rpush('pollution', f'({dt.strftime("%H:%M:%S")} : {pollution})')
+        #r_client.set(key,pollution)
 
 
 
