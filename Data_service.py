@@ -36,7 +36,7 @@ class Data_service:
         pollution = air_pollution.process_pollution_data(pollut)
         
         key = dt.strftime("%Y-%m-%d %H:%M:%S")
-        r_client.rpush('pollution', f'({dt.strftime("%H:%M:%S")} : {pollution})')
+        r_client.rpush('pollution', f'({dt.strftime("%Y-%m-%d %H:%M:%S")} : {pollution})')
         #r_client.set(key,pollution)
 
 

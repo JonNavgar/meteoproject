@@ -9,7 +9,12 @@ message PollutionData{
   google.protobuf.Timestamp datetime = 1;
   float pollution = 2;
 }
+message CompleteData {
+  oneof CompleteData {
+    WellnessData wellness = 1;
+    PollutionData pollution = 2;
+  }
+}
 service Terminal {
-  rpc send_Wellness(WellnessData) returns (google.protobuf.Empty) {}
-  rpc send_Pollution(PollutionData) returns (google.protobuf.Empty) {}
+  rpc send_results(CompleteData) returns (google.protobuf.Empty) {}
 }

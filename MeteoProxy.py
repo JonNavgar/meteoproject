@@ -1,5 +1,7 @@
 import redis
 import time
+import Terminal_server_pb2
+import Terminal_server_pb2_grpc
 
 
 # Connect to Redis server
@@ -35,7 +37,15 @@ while True:
 			#pollution_mean = sum(pollution_values) / len(pollution_data)
 	
 	print(f'Wellness mean: {wellness_mean}')
-	
-	
+	# Enviar a las terminales las medias cada Y segundos
+	# Crear cliente y rellenar mensaje de rpc
+        channel = grpc.insecure_channel('localhost:50051')
+	stub1 = Terminal_server_pb2_grpc.Terminal_serviceStub(channel)
+        complete_data = Terminal_server_pb2.CompleteData()
+        complete_data.WellnessData.datetime = 
+	complete_data.WellnessData.wellness = wellness_mean
+	complete_data.PollutionData.datetime = 
+        complete_data.PollutionData.pollution = pollution_mean
+        stub1.send_results(complete_data)
 	# Wait for Y seconds	
 	time.sleep(Y)
