@@ -8,6 +8,6 @@ class Terminal_service:
         
     def send_results(self, data):
 	# Imprimir valores con colores o grafico en tiempo real
-        print("HE LLEGAO TERMINAL")
-
+        print(data.wellness.wellness)
+        print(data.wellness.datetime)
 Terminal_service = Terminal_service()
