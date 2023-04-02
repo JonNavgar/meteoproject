@@ -33,5 +33,5 @@ class Terminal_service:
         self.line.set_data(self.x_data, self.y_data)
         self.ax.set_xlim([max(0, x.timestamp() - 30),x.timestamp()])
         self.fig.canvas.draw()
-        plt.show()        
+        plt.show()
 Terminal_service = Terminal_service()

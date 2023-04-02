@@ -32,8 +32,6 @@ LB_server_pb2_grpc.add_LB_serviceServicer_to_server(LB_serviceServicer(), server
 # listen on port 50051
 print('Starting server. Listening on port 50051.')
 server.add_insecure_port('0.0.0.0:50051')
-server.add_insecure_port('0.0.0.0:50052')
-server.add_insecure_port('0.0.0.0:50053')
 server.start()
 
 # since server.start() will not block,
