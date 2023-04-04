@@ -26,7 +26,8 @@ class Data_serviceServicer(Data_server_pb2_grpc.Data_serviceServicer):
 server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
 Data_server_pb2_grpc.add_Data_serviceServicer_to_server(Data_serviceServicer(), server)
 
-print('Listening')
+# Añadimos los servers a los que el LB decidira a cual conectarse
+print('Data_Server: Listening')
 server.add_insecure_port('0.0.0.0:50054')
 server.add_insecure_port('0.0.0.0:50055')
 server.add_insecure_port('0.0.0.0:50056')

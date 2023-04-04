@@ -25,12 +25,12 @@ class LB_serviceServicer(LB_server_pb2_grpc.LB_serviceServicer):
 # create a gRPC server
 server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
 
-# use the generated function `add_InsultingServiceServicer_to_server`
+# use the generated function `add_LBServiceServicer_to_server`
 # to add the defined class to the server
 LB_server_pb2_grpc.add_LB_serviceServicer_to_server(LB_serviceServicer(), server)
 
 # listen on port 50051
-print('Starting server. Listening on port 50051.')
+print('Starting LB_server. Listening on port 50051.')
 server.add_insecure_port('0.0.0.0:50051')
 server.start()
 

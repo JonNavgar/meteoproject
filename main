@@ -1,0 +1,6 @@
+# Autores: Tomas Canton y Jon Navarro
+# Fecha: 05/04/2023
+# Descripcion: Script que permite la ejecucion de los diferentes nodos que permiten realizar la comunicacion
+# directa entre los sensores que captan parametros de aire y contaminacion y los terminales que representan
+# la media de estos parametros cada 10 segundos
+import subprocess 

@@ -8,6 +8,7 @@ message PollutionData{
   string datetime = 1;
   float pollution = 2;
 }
+# Union de los dos mensajes (Pollution y Wellness) para poder enviar en una sola RPC
 message CompleteData {
   oneof CompleteData {
     WellnessData wellness = 1;

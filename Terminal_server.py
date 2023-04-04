@@ -20,12 +20,12 @@ class Terminal_serviceServicer(Terminal_server_pb2_grpc.Terminal_serviceServicer
 # create a gRPC server
 server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
 
-# use the generated function `add_InsultingServiceServicer_to_server`
+# use the generated function `add_TerminalServiceServicer_to_server`
 # to add the defined class to the server
 Terminal_server_pb2_grpc.add_Terminal_serviceServicer_to_server(Terminal_serviceServicer(), server)
 
-# listen on port 50051
-print('Starting server. Listening on port 50057.')
+# listen on port 50057
+print('Starting Terminal_server. Listening on port 50057.')
 server.add_insecure_port('0.0.0.0:50057')
 server.start()
 
