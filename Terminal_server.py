@@ -29,17 +29,19 @@ class Plotter():
         self.fig.set_size_inches(12, 6)
         plt.xlabel('Tiempo')
         plt.ylabel('Coef')
-
+        self.line, = self.ax.plot(self.x_data, self.y_data)
 
     def update(self, x_data, y_data):
         self.x_data = x_data
         print(self.x_data)
         self.y_data = y_data
         print(self.y_data)
+        self.line.set_data(self.x_data,self.y_data)
 
     def plot(self):
-
-        self.line, = self.ax.plot(self.x_data, self.y_data)
+        self.ax.relim()
+        self.ax.autoscale_view()
+        self.fig.canvas.draw()
         plt.pause(1)
         print("updated plot")
 
