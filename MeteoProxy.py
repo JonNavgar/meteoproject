@@ -1,45 +1,82 @@
 import redis
 import time
+from datetime import datetime, timedelta
+import grpc
 import Terminal_server_pb2
 import Terminal_server_pb2_grpc
-import grpc
-import datetime
-# Connect to Redis server
-print("Proxy")
-r = redis.Redis(host='localhost', port=6379, db=0)
-Y = 30 
-wellness_values = []
-#Ciclo infinito para leer datos de Redis 
-while True: 
-	#Obtener lista de datos de Redis
-	wellness_data = r.lrange('wellness', 0, -1)
-	pollution_data = r.lrange('pollution', 0, -1)
-	for element in wellness_data: 
-		element_str = element.decode('utf-8')
-		#Separamos los elementos del diccionario 
-		tiempo, wellness_str = element_str.strip('()').split(" : ")
-		#String convertido a float 
-		wellness = float(wellness_str.strip())
-		wellness_values.append(wellness)
-		if len(wellness_values) > 0: 
-			wellness_mean = sum(wellness_values) / len(wellness_values)
-			#pollution_mean = sum(pollution_values) / len(pollution_data)
-	# Enviar a las terminales las medias cada Y segundos
-	# Crear cliente y rellenar mensaje de rpc
-	channel = grpc.insecure_channel('localhost:50057')
-	stub1 = Terminal_server_pb2_grpc.Terminal_serviceStub(channel)
-	# Para wellness data
-	wellness_data = Terminal_server_pb2.WellnessData()
-	wellness_data.wellness = wellness_mean
-	wellness_data.datetime = tiempo
-	complete_data = Terminal_server_pb2.CompleteData()
-	complete_data.wellness.CopyFrom(wellness_data)
-	# Para pollution data
-	#pollution_data = Terminal_server_pb2.PollutionData()
-        #pollution_data.wellness = pollution_mean
-        #pollution_data.datetime = tiempo
-        #pollution_data = Terminal_server_pb2.CompleteData()
-        #complete_data.wellness.CopyFrom(pollution_data)
-	stub1.send_results(complete_data)
-	# Wait for Y seconds	
-	time.sleep(Y)
+
+# Conexión Redis
+r_client = redis.StrictRedis(host="localhost", port=6379, password="", decode_responses=True)
+Y = 10
+while True:
+    # WELLNESS
+    w_list = []
+    w_string = r_client.lpop("wellness")
+    if w_string is None:
+        print("No hay datos wellness")
+        while True:
+            time.sleep(Y)
+            w_string = r_client.lpop("wellness")
+            if w_string is not None:
+                break
+
+    w_first = datetime.strptime(w_string.strip('()').split(" : ")[0], "%Y-%m-%d %H:%M:%S")
+    w_limit = w_first + timedelta(seconds=Y)
+    w_list.append(float(w_string.strip('()').split(" : ")[1]))
+    while True:
+        w_string = r_client.lpop("wellness")
+        if w_string is None:
+            break
+
+        w_time = datetime.strptime(w_string.strip('()').split(" : ")[0], "%Y-%m-%d %H:%M:%S")
+        if w_limit < w_time:
+            break
+
+        w_list.append(float(w_string.strip('()').split(" : ")[1]))
+
+    w_avg = round(sum(w_list) / len(w_list), 3)
+
+    # POLLUTION
+    p_list = []
+    p_string = r_client.lpop("pollution")
+    if p_string is None:
+        print("No hay datos pollution")
+        while True:
+            time.sleep(Y)
+            p_string = r_client.lpop("pollution")
+            if p_string is not None:
+                break
+
+    p_first = datetime.strptime(p_string.strip('()').split(" : ")[0], "%Y-%m-%d %H:%M:%S")
+    p_limit = p_first + timedelta(seconds=Y)
+    p_list.append(float(p_string.strip('()').split(" : ")[1]))
+
+    while True:
+        p_string = r_client.lpop("pollution")
+        if p_string is None:
+            break
+
+        p_time = datetime.strptime(p_string.strip('()').split(" : ")[0], "%Y-%m-%d %H:%M:%S")
+        if p_limit < p_time:
+            break
+
+        p_list.append(float(p_string.strip('()').split(" : ")[1]))
+
+    p_avg = round(sum(p_list) / len(p_list), 3)
+
+    # Enviar a las terminales las medias cada Y segundos
+    # Crear cliente y rellenar mensaje de rpc
+    channel = grpc.insecure_channel('localhost:50057')
+    stub1 = Terminal_server_pb2_grpc.Terminal_serviceStub(channel)
+    # Para wellness data
+    complete_data = Terminal_server_pb2.CompleteData()
+    complete_data.wellness.wellness = w_avg
+    complete_data.wellness.datetime = w_time
+    # Para pollution data
+    complete_data.pollution.pollution = p_avg
+    complete_data.pollution.datetime = p_time
+    stub1.send_results(complete_data)
+    # Wait for Y seconds	
+    time.sleep(Y)
+
+
