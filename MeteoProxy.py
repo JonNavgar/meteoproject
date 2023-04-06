@@ -73,11 +73,13 @@ while True:
     # Para wellness data
     complete_data = Terminal_server_pb2.CompleteData()
     complete_data.wellness = w_avg
-    w_time_str = str(w_time.strftime("%Y-%m-%d %H:%M:%S"))
+    print(w_time)
+    print(p_time)
+    w_time_str = w_time.strftime("%Y-%m-%d %H:%M:%S")
     complete_data.datetimew = w_time_str
     # Para pollution data
     complete_data.pollution = p_avg
-    p_time_str = str(p_time.strftime("%Y-%m-%d %H:%M:%S"))
+    p_time_str = p_time.strftime("%Y-%m-%d %H:%M:%S")
     complete_data.datetimep = p_time_str
     print(complete_data)
     stub1.send_results(complete_data)

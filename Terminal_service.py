@@ -17,8 +17,8 @@ class Terminal_service:
         print("resultado enviado")
         print(data)
         # Actualizar plot
-        # x = dt.datetime.strptime(data.wellness.datetime, '%Y-%m-%d %H:%M:%S')
-        x = data.datetime
+        x_datetime = dt.datetime.strptime(data.datetimew, '%Y-%m-%d %H:%M:%S')
+        x = x_datetime
         y = data.wellness
         self.x_data.append(x)
         self.y_data.append(y)
