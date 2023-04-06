@@ -1,20 +1,12 @@
 syntax = "proto3";
 import "google/protobuf/empty.proto";
-message WellnessData{
-  string datetime = 1;
-  float wellness = 2;
-}
-message PollutionData{
-  string datetime = 1;
+message CompleteData{
+  float wellness = 1;
   float pollution = 2;
-}
-# Union de los dos mensajes (Pollution y Wellness) para poder enviar en una sola RPC
-message CompleteData {
-  oneof CompleteData {
-    WellnessData wellness = 1;
-    PollutionData pollution = 2;
-  }
+  string datetimew = 3;
+  string datetimep = 4;
 }
 service Terminal_service {
   rpc send_results(CompleteData) returns (google.protobuf.Empty) {}
 }
+

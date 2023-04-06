@@ -15,11 +15,11 @@ class Terminal_service:
          self.y_data = []
     def send_results(self, data):
         print("resultado enviado")
-        print(data.wellness.wellness)
+        print(data)
         # Actualizar plot
         # x = dt.datetime.strptime(data.wellness.datetime, '%Y-%m-%d %H:%M:%S')
-        x = data.wellness.datetime
-        y = data.wellness.wellness
+        x = data.datetime
+        y = data.wellness
         self.x_data.append(x)
         self.y_data.append(y)
 
