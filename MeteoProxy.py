@@ -8,6 +8,8 @@ import Terminal_server_pb2_grpc
 # Conexión Redis
 r_client = redis.StrictRedis(host="localhost", port=6379, password="", decode_responses=True)
 Y = 10
+w_time = datetime.min
+p_time = datetime.min
 while True:
     # WELLNESS
     w_list = []
@@ -69,12 +71,18 @@ while True:
     channel = grpc.insecure_channel('localhost:50057')
     stub1 = Terminal_server_pb2_grpc.Terminal_serviceStub(channel)
     # Para wellness data
+    wellness_data = Terminal_server_pb2.WellnessData()
+    wellness_data.wellness = w_avg
+    w_time_str = str(w_time.strftime("%Y-%m-%d %H:%M:%S"))
+    wellness_data.datetime = w_time_str
     complete_data = Terminal_server_pb2.CompleteData()
-    complete_data.wellness.wellness = w_avg
-    complete_data.wellness.datetime = w_time
+    complete_data.wellness.CopyFrom(wellness_data)
     # Para pollution data
-    complete_data.pollution.pollution = p_avg
-    complete_data.pollution.datetime = p_time
+    pollution_data = Terminal_server_pb2.PollutionData()
+    pollution_data.pollution = p_avg
+    p_time_str = str(p_time.strftime("%Y-%m-%d %H:%M:%S"))
+    pollution_data.datetime = p_time_str
+    complete_data.pollution.CopyFrom(pollution_data)
     stub1.send_results(complete_data)
     # Wait for Y seconds	
     time.sleep(Y)
