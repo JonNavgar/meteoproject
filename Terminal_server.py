@@ -8,6 +8,7 @@ from dateutil import parser
 import Terminal_server_pb2
 import Terminal_server_pb2_grpc
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import matplotlib
 
 from Terminal_service import Terminal_service
@@ -23,20 +24,28 @@ class Plotter():
 
     def __init__(self):
 
-        self.x_data = []
-        self.y_data = []
+        self.xw_data = []
+        self.yw_data = []
+        self.xp_data = []
+        self.yp_data = []
         self.fig, self.ax = plt.subplots()
         self.fig.set_size_inches(12, 6)
         plt.xlabel('Tiempo')
-        plt.ylabel('Coef')
-        self.line, = self.ax.plot(self.x_data, self.y_data)
+        plt.ylabel('Media Coef')
+        plt.title('Wellness vs Pollution')
+        date_fmt = '%Y-%m-%d %H:%M:%S'
+        date_formatter = mdates.DateFormatter(date_fmt)
+        self.ax.xaxis.set_major_formatter(date_formatter)
+        self.line1, = self.ax.plot(self.xw_data, self.yw_data, color='blue', label='wellness')
+        self.line2, = self.ax.plot(self.xp_data, self.yp_data, color='red', label='pollution')
 
-    def update(self, x_data, y_data):
-        self.x_data = x_data
-        print(self.x_data)
-        self.y_data = y_data
-        print(self.y_data)
-        self.line.set_data(self.x_data,self.y_data)
+    def update(self, xw_data, yw_data, xp_data, yp_data):
+        self.xw_data = xw_data
+        self.yw_data = yw_data
+        self.xp_data = xp_data
+        self.yp_data = yp_data
+        self.line1.set_data(self.xw_data,self.yw_data)
+        self.line2.set_data(self.xp_data,self.yp_data)
 
     def plot(self):
         self.ax.relim()
@@ -62,7 +71,7 @@ server.start()
 plotter = Plotter()
 try:
     while True:
-        plotter.update(Terminal_service.x_data, Terminal_service.y_data)
+        plotter.update(Terminal_service.xw_data, Terminal_service.yw_data, Terminal_service.xp_data, Terminal_service.yp_data)
         plotter.plot()
 
 except KeyboardInterrupt:
