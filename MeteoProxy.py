@@ -8,8 +8,6 @@ import Terminal_server_pb2_grpc
 # Conexión Redis
 r_client = redis.StrictRedis(host="localhost", port=6379, password="", decode_responses=True)
 Y = 10
-#w_time = datetime.min
-#p_time = datetime.min
 while True:
     # WELLNESS
     w_list = []

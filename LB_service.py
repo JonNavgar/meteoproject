@@ -17,7 +17,6 @@ class LB_service:
     def send_meteo_data(self, meteo):
 	# Round Robin 
         selected_server = self.servers[self.server_index % len(self.servers)]
-        print(selected_server[1])
         self.server_index = self.server_index + 1
 	# Crear cliente
         channel = grpc.insecure_channel(f"{selected_server[0]}:{selected_server[1]}")

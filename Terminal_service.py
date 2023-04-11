@@ -16,7 +16,6 @@ class Terminal_service:
          self.xp_data = []
          self.yp_data = []
     def send_results(self, data):
-        print("resultado enviado")
         # Actualizar plot
 	# Wellness
         x_datetimew = dt.datetime.strptime(data.datetimew, '%Y-%m-%d %H:%M:%S')

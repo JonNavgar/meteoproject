@@ -52,7 +52,7 @@ class Plotter():
         self.ax.autoscale_view()
         self.fig.canvas.draw()
         plt.pause(1)
-        print("updated plot")
+        print("Updated plot")
 
 # create a gRPC server
 server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
