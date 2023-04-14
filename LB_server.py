@@ -7,6 +7,7 @@ from datetime import datetime
 from dateutil import parser
 import LB_server_pb2
 import LB_server_pb2_grpc
+import grpc.aio
 
 
 from LB_service import LB_service
