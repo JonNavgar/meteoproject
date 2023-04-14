@@ -63,7 +63,6 @@ while True:
         p_list.append(float(p_string.strip('()').split(" : ")[1]))
 
     p_avg = round(sum(p_list) / len(p_list), 3)
-
     # Enviar a las terminales las medias cada Y segundos
     # Crear cliente y rellenar mensaje de rpc
     channel = grpc.insecure_channel('localhost:50057')
